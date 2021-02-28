@@ -1,0 +1,25 @@
+{%  extends 'SPT/main.html' %}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="card card-body">
+
+
+			<p>Are you sure you want to Delete this Spending detail ?</p>
+
+			<form action="" method="POST">
+				
+				{% csrf_token %}
+				<input type="hidden" name="next" value="{{request.GET.next}}">
+				<a class="btn btn-warning" href="{% url 'home' %}?next=({{request.GET.next}})">Cancel</a>		
+
+				
+                <button class="btn btn-danger" type="submit">Confirm</button>
+			</form>
+		</div>
+	</div>
+</div
+
+{% endblock %}

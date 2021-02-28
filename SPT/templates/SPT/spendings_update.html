@@ -1,0 +1,24 @@
+{%  extends 'SPT/main.html' %}
+
+{% block content %}
+<a href="{% url "home" %}" class="btn btn-primary">Home</a><hr>
+    <div class="row">
+        <div class="col-md-4">            
+            <div class="card card-body">
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{request.GET.next}}">
+        <label> *Spend For: </label>
+				<input type="text" value="{{spending.detail}}" name="detail"><br>
+				<label> *Spend date: </label>
+				<input type="date" value={{date}} name="date"><br>
+				<label>Total amount : </label>
+				<input type="number"  value="{{spending.total}}"  name="total"><br>
+
+         <a href="{%  url 'home' %}?next={{request.GET.next}}" class="btn btn-warning">Cancel</a>
+        <input type="submit" class="btn btn-primary" name="submit">
+    </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

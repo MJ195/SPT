@@ -1,0 +1,124 @@
+  
+{%  extends 'SPT/main.html' %}
+
+{% block content %}
+
+{%  include 'SPT/nav.html' %}
+
+
+<div>{%  include 'SPT/status.html' %}</div>
+
+<br>
+{% for msg in messages %}
+		{% if msg %}		
+			<div class="{{msg.tags}}">{{msg}}</div>
+		{% endif %}	
+		{% endfor %}		
+		<br>
+<div class="row">
+	<div class="col-md-3">
+		<h5>MEMBERS:</h5>		
+		<hr>
+		<div class="card card-body">
+            <form method="post">
+				<input type="hidden" name="form_1" value="1">
+                {% csrf_token %}
+                {{form1}}
+				
+				<button type="submit" class="btn btn-primary  btn-sm btn-block">add member</button>		
+         
+            </form>
+			<table class="table table-sm">
+				<tr>					
+					<th>Members</th>					
+				</tr>
+				{% for member in members %}
+					<tr>
+                        <td>{{member.name}}</td>
+						<td><a class="btn btn-sm btn-info" href="{% url 'remove_member' member.id %}">Remove</a></td>
+						
+						
+					</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+	</div>
+
+	<div class="col-md-8">
+		<h5 id="last">SPNDINGS DETAILS</h5>		
+		<hr>
+		<div class="card card-body">
+			
+			
+			<form  id="myform" method="POST">
+				<input type="hidden" name="form_2" value="2">			
+				{% csrf_token %}				
+				<label> *Spend For: </label>
+				<input type="text" id="detail" name="detail"><br>
+				<label> *Spend date: </label>
+				<input type="date" name="date"><br>
+				<label>Total amount : </label>
+				<input type="number" name="total"><br>
+				{{form3.as_p}}
+				<input type="submit"  id="submit" class="btn btn-primary  btn-sm btn-block"  name="submit">
+				
+
+				
+			</form>
+	
+		</div>
+	</div>
+	
+	<div class="col-md-7">
+		<h5>Last 5 Spendings Detail</h5>
+		<hr>
+		<div class="card card-body">
+				
+			<table class="table table-sm">
+				<tr>
+					<th>Spend for</th>
+					<th>Amount spend</th>
+					<th>Detail</th>
+					<th>Member's shares update</th>
+					<th>Delete</th>
+					
+				</tr>
+
+						{% for spend in spendings%}
+					<tr>
+						<td><a href="{%  url 'spendings_update' spend.id  %} ">{{spend.detail}}</a></td>
+						<td>{{spend.total}}</td>
+						<td>{{spend.date}}</td>						
+						<td><a class="btn btn-sm btn-info" href="{% url 'share_update' spend.id %}">Update</a></td>
+
+						<td><a class="btn btn-sm btn-danger" href="{% url 'remove_spending' spend.id  %}">Delete</a></td>
+
+					</tr>
+				
+						{% endfor %}
+		
+			</table>
+		
+		
+			
+		</div>
+	</div>
+
+
+</div>
+<script>
+	document.addEventListener('DOMContentLoaded',()=>{
+		const myform=document.querySelector('#myform');
+		const detail=document.querySelector('#detail');		
+		var last=document.querySelector('#last');		
+		myform.onsubmit=()=>{
+				if (detail.value.length>0){
+						
+
+				}
+		}
+	});
+
+</script>
+{% endblock %}

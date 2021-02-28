@@ -1,0 +1,97 @@
+  
+{%  extends 'SPT/main.html' %}
+
+{% block content %}
+  <a class="btn btn-primary" href="{% url "home" %}">Home</a>
+  <br>
+  {% for msg in messages %}
+  <div class="{{msg.tags}}">{{msg}}</div>
+  {% endfor %}
+<div class="row">
+	<div class="col-md-3">
+		<div class="card card-body">
+			<h5>Total amount Spent = {{total}}</h5>	   									
+			<h6 style="text-align: center;">Member's equal Spents</h6>  						
+		{% for key,values in members_shares2.items %}			
+			<div style="text-align: center;">{{key}}={{equal}}</div><hr>				
+		{% endfor %}		
+	</div>
+	</div>
+	<div class="col-md-3">
+		<div class="card card-body">
+			<h5 style="text-align: center;">Members actual Spents</h5><br>
+			{% for key,values in members_shares2.items %}
+			<div style="text-align: center;">{{key}}={{values}}</div><hr>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="card card-body" >
+			<h5 style="text-align: center;">Consolidate result</h5><br>
+				{% for key,values in members_shares3.items %}			
+				<div style="text-align: center;">{{key}}={{values}}</div><hr>
+				<input type="hidden" value="{{values|add:equal2}}" id="find">		
+			
+				{% endfor %}		
+		</div>
+	</div>
+
+
+</div>
+{% for msg in messages %}
+{{msg}}
+
+{%  endfor %}
+
+	<br>
+	<div class="col">
+	<div class="col-md-7">
+		<div class="card card-body">
+			<form method="GET">
+				<label>Start date : </label>
+				<input type="date" name="start_date" id="id_start_date"> 
+				<label>End date : </label>
+				<input type="date" name="end_date" id="id_end_date"> <br>
+				<label>search by word</label>
+				<input type="text" name="word">
+				<input type="submit" name='search'>
+			</form>
+					
+		</div>
+	</div></div>
+	<div class="col-md-7">
+		<h5>Spendings Detail</h5>
+		<hr>
+		<div class="card card-body">
+				
+			<table class="table table-sm">
+				<tr>
+					<th>Spend for</th>
+					<th>Amount spend</th>
+					<th>Detail</th>
+					<th>Member's shares update</th>
+					<th>Delete</th>
+					
+				</tr>
+
+						{% for spend in spendings%}
+					<tr>
+						<td><a href="{%  url 'spendings_update' spend.id  %}?next=1 ">{{spend.detail}}</a></td>
+						<td>{{spend.total}}</td>
+						<td>{{spend.date}}</td>						
+						<td><a class="btn btn-sm btn-info" href="{% url 'share_update' spend.id %}?next=(1)">Update</a></td>
+
+						<td><a class="btn btn-sm btn-danger" href="{% url 'remove_spending' spend.id %}?next=1">Delete</a></td>
+
+					</tr>
+				
+						{% endfor %}
+		
+			</table>
+		
+		
+			
+		</div>
+	</div>
+
+{% endblock %}
